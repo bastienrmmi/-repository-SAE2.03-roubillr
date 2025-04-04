@@ -19,6 +19,7 @@
  *  de faire des opérations sur les données stockées en base de données.
  */
 require("model.php");
+
 function readAllMoviesController(){
     return getMovies();
 }
