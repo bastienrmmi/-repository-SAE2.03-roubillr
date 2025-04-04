@@ -10,7 +10,7 @@
   <body>
     <header id="header"></header>
 
-    <section id="content"></section>
+    <section class="filmcards" id="content"></section>
 
     <script type="module">
       import { NavBar } from "./component/NavBar/script.js";
@@ -30,8 +30,7 @@
       };
       C.start = async function () {
         V.renderNavBar("C.handlerAbout()");
-        let m = await DataMovie.requestMovie()
-        V.renderFilmCards(m);
+        V.renderFilmCards(await DataMovie.requestMovie());
       };
       
       // Vue (contient tout ce qui est relatif à l'affichage)

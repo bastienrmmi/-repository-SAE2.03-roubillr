@@ -7,7 +7,7 @@ FilmCard.format = function (movies) {
   let html = "";
   movies.forEach((film) =>  {
     let htmlfilm = template;
-    htmlfilm = htmlfilm.replace("{{name}}", film.name);
+    htmlfilm = htmlfilm.replace("{{title}}", film.name);
     htmlfilm = htmlfilm.replace("{{image}}", film.image);
     html += htmlfilm;
   });
