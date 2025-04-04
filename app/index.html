@@ -15,6 +15,7 @@
     <script type="module">
       import { NavBar } from "./component/NavBar/script.js";
       import { FilmCard } from "./component/FilmCard/script.js";
+      import { DataMovie } from "./data/dataMovie.js"
 
       // Controleur
       // Rappel, écrire window.C plutôt que let C est nécessaire pour tester depuis la console du navigateur
@@ -26,13 +27,9 @@
           "Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !"
         );
       };
-      C.getFilm = async function () {
-        let data = await DataMovie.request();
-        V.readAllMoviesController(data);
-      };
       C.start = function () {
         V.renderNavBar("C.handlerAbout()");
-        V.renderFilmCards(C.getFilm());
+        V.renderFilmCards(DataMovie.getMovie());
       };
       
       // Vue (contient tout ce qui est relatif à l'affichage)
@@ -50,9 +47,12 @@
         header.innerHTML = NavBar.format(hAbout);
       };
 
-      V.renderFilmCards = function (data) {
+      V.renderFilmCards = function (film) {
         let content = document.querySelector("#content");
-        content.innerHTML = FilmCard.format(data);
+        data.forEach(movie => {
+          let cardHTML = FilmCard.format(movie);
+          content.innerHTML += cardHTML
+        });
       };
 
       C.start(); // Démarre l'application
