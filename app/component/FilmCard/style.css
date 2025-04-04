@@ -1,9 +1,8 @@
 .filmcards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(6, 1fr);
   gap: 2rem;
   padding: 2rem;
-  background-color: var(--color-bg);
 }
 
 .filmcard {
@@ -32,12 +31,11 @@
   bottom: 0;
   left: 0;
   right: 0;
-  /* background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)); */
   color: #fff;
   font-size: 1em;
   padding: 0.8rem;
   text-align: center;
-  opacity: 1; /* Toujours visible */
+  opacity: 1;
 }
 @media (max-width: 400px) {
   .filmcards {
@@ -46,21 +44,14 @@
     padding: 0.5rem;
   }
   .filmcard {
-    position: relative;
-    overflow: hidden;
     border-radius: 0.2rem;
   }
+  .filmcard__affiche {
+    padding-bottom: 2rem;
+  }
   .filmcard__titre {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    /* background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)); */
-    color: #fff;
-    font-size: 1em;
-    padding: 0.8rem;
-    text-align: center;
-    opacity: 1;
+    font-size: 0.4em;
+    padding: 0;
   }
 }
 /* Styles pour les écrans plus grands */
