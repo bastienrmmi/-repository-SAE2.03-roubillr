@@ -1,0 +1,76 @@
+/* Définition des variables globales */
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --background-color: #f4f4f4;
+  --text-color: #333;
+  --font-family: 'Arial', sans-serif;
+  --border-radius: 8px;
+  --padding: 16px;
+}
+
+/* Style de base pour l'écran d'informations */
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Conteneur principal */
+.film-info-container {
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: #fff;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* En-tête */
+.film-info-header {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: var(--padding);
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Section de contenu */
+.film-info-content {
+  padding: var(--padding);
+  line-height: 1.6;
+}
+
+/* Liste des détails */
+.film-info-details {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.film-info-details li {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: var(--secondary-color);
+  color: #fff;
+  border-radius: var(--border-radius);
+}
+
+/* Bouton */
+.film-info-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: #fff;
+  text-decoration: none;
+  border-radius: var(--border-radius);
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.film-info-button:hover {
+  background-color: darken(var(--primary-color), 10%);
+}

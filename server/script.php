@@ -51,10 +51,13 @@ if ( isset($_REQUEST['todo']) ){
   // en fonction de la valeur de 'todo', on appelle la fonction de contrôle appropriée
   // peut s'écrire aussi avec des if/else
   switch($todo){
+    case 'infoById'
+      $data = readAllMoviesInfoByIdController();
+      break;
+
     case 'addMovie';
       $data = addMovieController();
       break;
-    
 
     case 'readAll';
       $data = readAllMoviesController();

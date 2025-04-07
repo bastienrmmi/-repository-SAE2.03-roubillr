@@ -24,9 +24,12 @@ function addMovieController(){
     $ok = addMovie($titre, $realisateur, $annee, $duree, $desc, $categorie, $image, $url, $age);
     
     if ($ok!=0){
-      return "Le film $titre a été ajouté avec succès !";
+      return "Le film $titre a bien été ajouté !";
     } 
     else{
       return "Erreur lors de l'ajout du film $titre !";
     }
+}
+function readAllMoviesInfoByIdController(){
+  return getMovieInfoById();
 }

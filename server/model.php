@@ -47,3 +47,24 @@ function addMovie($name, $real, $annee, $length, $description, $categorie, $imag
     $res = $stmt->rowCount();
     return $res; // Retourne le nombre de lignes affectées
 }
+
+function getMovieInfoById($id) {
+    // Connexion à la base de données (assurez-vous que $db est défini globalement ou passé en paramètre)
+    global $db;
+
+    // Préparer la requête SQL pour récupérer les informations du film par ID
+    $query = "SELECT name, realisateur, annee, duree, description, categorie, image, trailer, pegi 
+              FROM movies 
+              WHERE id = :id";
+
+    // Préparer et exécuter la requête
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Récupérer le résultat
+    $movie = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Retourner les informations si le film est trouvé, sinon null
+    return $movie ?: null;
+}
