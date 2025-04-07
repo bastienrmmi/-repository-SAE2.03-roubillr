@@ -30,36 +30,36 @@
       };
       C.start = async function () {
         V.renderNavBar("C.handlerAbout()");
-        V.renderFilmCards(await DataMovie.requestMovie());
+        let data = await DataMovie.requestMovie();
+        if (data.length == 0) {
+          data = [
+            {
+              image: "sad.jfif",
+              name: "Il n'y a pas de film disponible pour l'instant",
+            },
+          ];
+        }
+        V.renderFilmCards(data);
       };
-      
+
       // Vue (contient tout ce qui est relatif à l'affichage)
       window.V = {};
-
-      /**
-       * V.renderNavBar
-       *
-       * Cette fonction est responsable de l'affichage de la barre de navigation (NavBar).
-       * Elle sélectionne l'élément HTML avec l'ID "header" et y insère le contenu
-       * formaté par le composant NavBar.
-       */
       V.renderNavBar = function (hAbout) {
         let header = document.querySelector("#header");
         header.innerHTML = NavBar.format(hAbout);
       };
-
-      // V.renderFilmCards = function (films) {
-      //   const content = document.querySelector("#content");
-      //   content.innerHTML = ""; // Vide le contenu précédent pour éviter les doublons
-      //   films.forEach((movie) => {
-      //     const cardHTML = FilmCard.format(movie);
-      //     content.innerHTML += cardHTML;
-      //   });
-      // };
-
+      
       V.renderFilmCards = function (film) {
         let content = document.querySelector("#content");
         content.innerHTML = FilmCard.format(film);
+      };
+
+      C.getAllMovies = async function () {
+        let data = await DataMovie.requestMovie();
+        if (data.length == 0) {
+          data = [{ name: "Il n'y a pas de film disponible pour l'instant" }];
+        }
+        V.renderMovieCard(data);
       };
 
       C.start(); // Démarre l'application
