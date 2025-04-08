@@ -1,11 +1,10 @@
-let templateFile = await fetch("./component/FilmInfo/template.html");
+let templateFile = await fetch("./component/MovieDetail/template.html");
 let template = await templateFile.text();
 
-let FilmInfo = {};
+let MovieDetail = {};
 
-FilmInfo.format = function (movie) {
+MovieDetail.format = function (movie) {
   let movieHtml = template;
-  console.log(movie); debug
   movieHtml = movieHtml.replace("{{name}}", movie.name);
   movieHtml = movieHtml.replace("{{image}}", movie.image);
   movieHtml = movieHtml.replace("{{description}}", movie.description);
@@ -19,4 +18,4 @@ FilmInfo.format = function (movie) {
   return movieHtml;
 };
 
-export { FilmInfo };
+export { MovieDetail };

@@ -14,6 +14,7 @@
 
     <script type="module">
       import { NavBar } from "./component/NavBar/script.js";
+      import { MovieDetail } from "./component/MovieDetail/script.js";
 
       import { FilmCard } from "./component/FilmCard/script.js";
       import { DataMovie } from "./data/dataMovie.js";
@@ -23,10 +24,26 @@
       // Une fois l'application terminée, on pourrait remettre let C.
       window.C = {};
 
+      C.handlerDetail = function(id){
+        let film = DataMovie.getMovieById(id);
+        if (film) {
+          V.renderMovieDetail(film);
+        } else {
+          alert("Film non trouvé");
+        }
+      }
+
       C.handlerAbout = function () {
         alert(
           "Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !"
         );
+      };
+      C.getAllMovies = async function () {
+        let data = await DataMovie.requestMovie();
+        if (data.length == 0) {
+          data = [{ name: "Il n'y a pas de film disponible pour l'instant" }];
+        }
+        V.renderMovieCard(data);
       };
       C.start = async function () {
         V.renderNavBar("C.handlerAbout()");
@@ -40,6 +57,7 @@
           ];
         }
         V.renderFilmCards(data);
+
       };
 
       // Vue (contient tout ce qui est relatif à l'affichage)
@@ -52,16 +70,14 @@
       V.renderFilmCards = function (film) {
         let content = document.querySelector("#content");
         content.innerHTML = FilmCard.format(film);
-      };
 
-      C.getAllMovies = async function () {
-        let data = await DataMovie.requestMovie();
-        if (data.length == 0) {
-          data = [{ name: "Il n'y a pas de film disponible pour l'instant" }];
-        }
-        V.renderMovieCard(data);
       };
-
+      V.renderMovieDetail = function (data) {
+        if (!data) return;
+        let content = document.querySelector("#detail");
+        console.log(data);
+        // content.innerHTML = MovieDetail.format(data);
+      };
       C.start(); // Démarre l'application
     </script>
   </body>

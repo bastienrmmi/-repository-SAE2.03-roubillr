@@ -30,6 +30,8 @@ function addMovieController(){
       return "Erreur lors de l'ajout du film $titre !";
     }
 }
-function readAllMoviesInfoByIdController(){
-  return getMovieInfoById();
+
+function readAllMovieDetailByIdController(){
+  $id = $_REQUEST['id'] ?? null;
+  return getMovieDetailById($id);
 }
