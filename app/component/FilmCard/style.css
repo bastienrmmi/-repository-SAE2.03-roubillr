@@ -3,6 +3,10 @@
   grid-template-columns: repeat(6, 1fr);
   gap: 2rem;
   padding: 2rem;
+
+  &:has(.infos){
+    display: block;
+  }
 }
 
 .filmcard {

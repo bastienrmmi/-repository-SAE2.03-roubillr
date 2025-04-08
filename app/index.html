@@ -24,15 +24,15 @@
       // Une fois l'application terminée, on pourrait remettre let C.
       window.C = {};
 
-      C.handlerDetail = function(id){
-        let film = DataMovie.getMovieById(id);
+      C.handlerDetail = async function(id){
+        let film = await DataMovie.getMovieById(id);
         if (film) {
-          V.renderMovieDetail(film);
+          V.renderMovieDetail(film[0]);
         } else {
           alert("Film non trouvé");
         }
+        
       }
-
       C.handlerAbout = function () {
         alert(
           "Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !"
@@ -74,9 +74,8 @@
       };
       V.renderMovieDetail = function (data) {
         if (!data) return;
-        let content = document.querySelector("#detail");
-        console.log(data);
-        // content.innerHTML = MovieDetail.format(data);
+        let content = document.querySelector("#content");
+        content.innerHTML = MovieDetail.format(data);
       };
       C.start(); // Démarre l'application
     </script>

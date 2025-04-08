@@ -11,7 +11,14 @@ DataMovie.requestMovie = async function () {
 DataMovie.getMovieById = async function (id) {
     let answer = await fetch(HOST_URL + "/server/script.php?todo=detailById&id=" + id);
     let movie = await answer.json();
-    console.log(movie);
     return movie;
   };
+// DataMovies.requestMovieDetails = async function (movieId) {
+//     let url = HOST_URL + `/server/script.php?todo=readMovieDetail&id=${movieId}`;
+//     console.log("URL générée :", url); // Vérifiez l'URL générée
+//     let answer = await fetch(url);
+//     let movieDetails = await answer.json();
+//     return movieDetails;
+// };
+
 export { DataMovie };
