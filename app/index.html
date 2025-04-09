@@ -15,6 +15,7 @@
     <script type="module">
       import { NavBar } from "./component/NavBar/script.js";
       import { MovieDetail } from "./component/MovieDetail/script.js";
+      import { MovieCategory } from "./component/MovieCategory/script.js";
 
       import { FilmCard } from "./component/FilmCard/script.js";
       import { DataMovie } from "./data/dataMovie.js";
@@ -45,19 +46,27 @@
         }
         V.renderMovieCard(data);
       };
+      // C.start = async function () {
+      //   V.renderNavBar("C.handlerAbout()");
+      //   let data = await DataMovie.requestMovie();
+        
+      //   V.renderFilmCards(data);
+
+      // };
+
       C.start = async function () {
         V.renderNavBar("C.handlerAbout()");
-        let data = await DataMovie.requestMovie();
-        if (data.length == 0) {
-          data = [
-            {
-              image: "sad.jfif",
-              name: "Il n'y a pas de film disponible pour l'instant",
-            },
-          ];
-        }
-        V.renderFilmCards(data);
-
+          let data = await DataMovie.requestMoviesByCategory();
+          if (data.length == 0) {
+            data = [
+              {
+                image: "sad.jfif",
+                name: "Il n'y a pas de film disponible pour l'instant",
+              },
+            ];
+          }
+          V.renderMoviesCategory(data);
+        C.getAllMovies();
       };
 
       // Vue (contient tout ce qui est relatif à l'affichage)
@@ -76,6 +85,19 @@
         if (!data) return;
         let content = document.querySelector("#content");
         content.innerHTML = MovieDetail.format(data);
+      };
+
+      V.renderMoviesCategory = function (data) {
+        if (!Array.isArray(data)) {
+          console.error("V.renderMoviesCategory: data is not iterable", data);
+          return;
+        }
+        let content = document.querySelector("#content");
+        let formattedContent = "";
+        for (let category of data) {
+          formattedContent += MovieCategory.format(category);
+        }
+        content.innerHTML = formattedContent;
       };
       C.start(); // Démarre l'application
     </script>

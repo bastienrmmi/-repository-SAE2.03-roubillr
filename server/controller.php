@@ -35,3 +35,8 @@ function readAllMovieDetailByIdController(){
   $id = $_REQUEST['id'] ?? null;
   return getMovieDetailById($id);
 }
+
+function readMoviesByCategoryController() {
+  $categories = getMoviesByCategory();
+  return $categories ? $categories : false;
+}

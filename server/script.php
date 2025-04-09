@@ -64,6 +64,10 @@ if ( isset($_REQUEST['todo']) ){
       $data = readAllMovieDetailByIdController();
       break;
 
+    case 'readMoviesCategory': 
+      $data = readMoviesByCategoryController();
+      break;
+
     default:
       echo json_encode('[error] Unknown todo value');
       http_response_code(400);
