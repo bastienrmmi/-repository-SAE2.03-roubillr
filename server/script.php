@@ -68,6 +68,10 @@ if ( isset($_REQUEST['todo']) ){
       $data = readMoviesByCategoryController();
       break;
 
+    case 'addProfile': // si la valeur de 'todo' est 'addProfile', on appelle la fonction addUserController()
+      $data = addUserController();
+      break;
+
     default:
       echo json_encode('[error] Unknown todo value');
       http_response_code(400);

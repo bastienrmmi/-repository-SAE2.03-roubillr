@@ -40,3 +40,23 @@ function readMoviesByCategoryController() {
   $categories = getMoviesByCategory();
   return $categories ? $categories : false;
 }
+function addUserController(){
+  $name = $_REQUEST['name'] ?? null;
+  $image = $_REQUEST['image'] ?? null;
+  $datenaissance = $_REQUEST['datenaissance'] ?? null;
+
+  if (empty($name) || empty($image) || empty($datenaissance)) {
+      return "Erreur : Tous les champs doivent être remplis.";
+  }
+
+  if (checkUser($name)) {
+      return "Erreur : L'utilisateur \"$name\" existe déjà.";
+  }
+
+  $ok = addUser($name, $image, $datenaissance);
+  if ($ok != 0){
+      return "L'utilisateur $name a été ajouté avec succès !";
+  } else {
+      return "Erreur lors de l'ajout de l'utilisateur $name !";
+  }
+}
