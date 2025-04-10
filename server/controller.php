@@ -60,3 +60,7 @@ function addUserController(){
       return "Erreur lors de l'ajout de l'utilisateur $name !";
   }
 }
+
+function readProfile(){
+    return getProfile();
+}

@@ -15,20 +15,17 @@ let DataProfile = {};
  */
 
 DataProfile.add = async function (fdata) {
-  // console.log("DataProfile.add 1"); // Point de repère n°1
   let config = {
-    method: "POST", // méthode HTTP à utiliser
-    body: fdata, // données à envoyer sous forme d'objet FormData
+    method: "POST", 
+    body: fdata, 
   };
-  console.log("DataProfile.add 2 ", config); 
 
   let answer = await fetch(
     HOST_URL + "/server/script.php?todo=addProfile",
     config
   );
-  // console.log("DataProfile.add 3 "); // Point de repère n°3
+
   let data = await answer.json();
-  console.log(data);
   return data;
 };
 

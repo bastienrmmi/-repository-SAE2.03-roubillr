@@ -103,18 +103,42 @@ function getMoviesByCategory() {
 
 
 function addUser($name, $image, $datenaissance) {
+    try {
+        $cnx = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBLOGIN, DBPWD);
+        $sql = "INSERT INTO UserProfile (name, image, datenaissance) 
+                VALUES (:name, :image, :datenaissance)";
+        $stmt = $cnx->prepare($sql);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':image', $image);
+        $stmt->bindParam(':datenaissance', $datenaissance);
+        $stmt->execute();
+        return $stmt->rowCount();
+    } catch (PDOException $e) {
+        error_log("Erreur SQL : " . $e->getMessage());
+        return false;
+    }
+}
+
+function checkUser($name) {
     $cnx = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBLOGIN, DBPWD);
-
-    $sql = "INSERT INTO UserProfile (name, image, datenaissance) 
-            VALUES (:name, :image, :datenaissance)";
-
+    $sql = "SELECT COUNT(*) FROM UserProfile WHERE name = :name";
     $stmt = $cnx->prepare($sql);
-
     $stmt->bindParam(':name', $name);
-    $stmt->bindParam(':image', $image);
-    $stmt->bindParam(':datenaissance', $datenaissance);
-
     $stmt->execute();
-    $res = $stmt->rowCount();
-    return $res; // Retourne le nombre de lignes affectées par l'opération
+    $count = $stmt->fetchColumn();
+    return $count > 0; // retourne true si au moins un utilisateur existe avec ce nom
+}
+
+function getProfile(){
+    // Connexion à la base de données
+    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+    // Requête SQL pour récupérer le menu avec des paramètres
+    $sql = "SELECT id, name, image, datenaissance FROM UserProfile";
+    // Prépare la requête SQL
+    $stmt = $cnx->prepare($sql);
+    // Exécute la requête SQL
+    $stmt->execute();
+    // Récupère les résultats de la requête sous forme d'objets
+    $res = $stmt->fetchAll(PDO::FETCH_OBJ);
+    return $res; // Retourne les résultats
 }
