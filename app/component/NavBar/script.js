@@ -10,7 +10,6 @@ NavBar.format = function ( hAbout,hProfile, profiles) {
   html = html.replace("{{handler}}", hProfile);
 for (let p of profiles) {
     options += `<option value="${p.name}" data-img="${p.image}" data-dob="${p.datenaissance}">${p.name}</option>`;
-    html = html.replace("{{name}}", p.name);
 }
 
   let image = profiles[0]?.image || "";

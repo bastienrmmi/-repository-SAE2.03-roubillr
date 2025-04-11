@@ -1,14 +1,13 @@
 .filmcards {
-  display: flex; /* Conserve 4 éléments même sur écran réduit */
-  flex-direction:column  ;  
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
   padding: 2rem;
-  
-  font-family: "DM Sans";
+  font-family: "DM Sans", sans-serif;
+}
 
-  &:has(.infos){
-    display: block;
-  }
+.filmcards:has(.infos) {
+  display: block;
 }
 
 .filmcard {
@@ -16,9 +15,9 @@
   overflow: hidden;
   border-radius: 1rem;
   cursor: pointer;
+  width: calc(100vw / 6);
+  aspect-ratio: 2 / 3; /* Fixe le ratio d'aspect pour avoir des cartes uniformes */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  max-width: calc(100vw / 6);
-  min-width: calc(100vw / 6);
 }
 
 .filmcard:hover {
@@ -31,7 +30,6 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  padding-bottom: 10rem;
 }
 
 .filmcard__titre {
@@ -43,26 +41,29 @@
   font-size: 1em;
   padding: 0.8rem;
   text-align: center;
-  opacity: 1;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
 }
+
+/* Responsive : petits écrans */
 @media (max-width: 500px) {
   .filmcards {
-    display: flex; /* Conserve 4 éléments même sur écran réduit */
     gap: 1rem;
     padding: 0.5rem;
   }
+
   .filmcard {
     border-radius: 0.2rem;
+    width: 100%; /* pleine largeur sur petits écrans */
+    aspect-ratio: 2 / 3;
   }
-  .filmcard__affiche {
-    padding-bottom: 2rem;
-  }
+
   .filmcard__titre {
-    font-size: 0.4em;
-    padding: 0;
+    font-size: 0.6em;
+    padding: 0.4rem;
   }
 }
-/* Styles pour les écrans plus grands */
+
+/* Responsive : écrans moyens et plus */
 @media (min-width: 768px) {
   .filmcard__titre {
     font-size: 1.2em;
