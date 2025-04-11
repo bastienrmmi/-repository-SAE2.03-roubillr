@@ -74,7 +74,8 @@ function getMoviesByCategory() {
                     Category.name AS category_name, 
                     Movie.id AS movie_id, 
                     Movie.name AS movie_name, 
-                    Movie.image AS movie_image
+                    Movie.image AS movie_image, 
+                    Movie.min_age AS movie_min_age
                 FROM Movie
                 JOIN Category ON Movie.id_category = Category.id
                 ORDER BY Category.name, Movie.name";
@@ -91,7 +92,8 @@ function getMoviesByCategory() {
             $categories[$row->category_id]["movies"][] = [
                 "id" => $row->movie_id,
                 "name" => $row->movie_name,
-                "image" => $row->movie_image
+                "image" => $row->movie_image,
+                "min_age" => $row->movie_min_age
             ];
         }
         return array_values($categories);
@@ -100,7 +102,6 @@ function getMoviesByCategory() {
         return false;
     }
 }
-
 
 function addUser($name, $image, $datenaissance) {
     try {

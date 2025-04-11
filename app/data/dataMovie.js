@@ -12,17 +12,22 @@ DataMovie.getMovieById = async function (id) {
     let answer = await fetch(HOST_URL + "/server/script.php?todo=detailById&id=" + id);
     let movie = await answer.json();
     return movie;
-  };
-// DataMovies.requestMovieDetails = async function (movieId) {
-//     let url = HOST_URL + `/server/script.php?todo=readMovieDetail&id=${movieId}`;
-//     console.log("URL générée :", url); // Vérifiez l'URL générée
-//     let answer = await fetch(url);
-//     let movieDetails = await answer.json();
-//     return movieDetails;
-// };
-DataMovie.requestMoviesByCategory = async function () {
+};
+
+DataMovie.requestMoviesByCategory = async function (age = 99) {
   let answer = await fetch(HOST_URL + "/server/script.php?todo=readMoviesCategory");
   let categories = await answer.json();
-  return categories;
+  let newCategories = [];
+  for(let c of categories){
+    let newCategory = {name: c.name, movies: []};
+    for(let m of c.movies){
+      if(m.min_age < age){
+        newCategory.movies.push(m);
+      }
+    }
+    newCategories.push(newCategory);
+  }
+
+  return newCategories;
 };
 export { DataMovie };

@@ -64,3 +64,12 @@ function addUserController(){
 function readProfile(){
     return getProfile();
 }
+
+function readControllerMoviesByAge() {
+  $age = $_REQUEST['age'] ?? null;
+  if ($age === null || !is_numeric($age)) {
+      return false;
+  }
+
+  return getMoviesByAge((int)$age);
+}

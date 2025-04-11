@@ -3,13 +3,26 @@ let template = await templateFile.text();
 
 let NavBar = {};
 
-NavBar.format = function (hAbout, hHome) {
+NavBar.format = function ( hAbout,hProfile, profiles) {
   let html = template;
+  let options = "";
+  
+  html = html.replace("{{handler}}", hProfile);
+for (let p of profiles) {
+    options += `<option value="${p.name}" data-img="${p.image}" data-dob="${p.datenaissance}">${p.name}</option>`;
+    html = html.replace("{{name}}", p.name);
+}
+
+  let image = profiles[0]?.image || "";
+
+  html = html.replace("{{options}}", options);
+  html = html.replace("{{image}}", image);
   html = html.replace("{{hAbout}}", hAbout);
-  html = html.replace("{{hHome}}", hHome);
+
   return html;
 };
 
+/*########################### DISPARITION  ###########################*/
 const navbar = document.getElementById('header');
 let lastScrollTop = 0;
 const scrollThreshold = 200; // Distance (en pxs) avant d'activer le comportement
@@ -33,8 +46,6 @@ const scrollThreshold = 200; // Distance (en pxs) avant d'activer le comportemen
         lastScrollTop = scrollTop;
     }
 );
-
-
 /*########################### DISPARITION  ###########################*/
 
 export { NavBar };

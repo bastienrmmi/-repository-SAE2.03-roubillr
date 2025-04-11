@@ -1,9 +1,14 @@
-<div class="addUser">
-  <h4 class="addUser__title">Ajouter un utilisateur</h4>
-  <form class="addUser__form">
+<div class="addFilm">
+  <h4 class="addFilm__title">Ajouter un utilisateur</h4>
+  <form class="addFilm__form">
     <input required type="text" name="name" placeholder="Saisir un nom" />
     <input type="text" name="image" placeholder="Saisir un image (et son extension)" />
     <input required type="date" name="datenaissance" placeholder="Saisir une année" min="1" />
-    <button type="button" onclick="{{handler}}">Ajouter</button>
+    <input
+        onclick="{{handler}}"
+        type="button"
+        value="Ajouter un film"
+        name="todo"
+      />
   </form>
 </div>

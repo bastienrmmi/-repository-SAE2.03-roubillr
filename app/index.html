@@ -19,25 +19,50 @@
 
       import { FilmCard } from "./component/FilmCard/script.js";
       import { DataMovie } from "./data/dataMovie.js";
-
+      import { DataProfile } from "./data/dataProfile.js";
       // Controleur
       // Rappel, écrire window.C plutôt que let C est nécessaire pour tester depuis la console du navigateur
       // Une fois l'application terminée, on pourrait remettre let C.
       window.C = {};
 
-      C.handlerDetail = async function(id){
+      C.handlerDetail = async function (id) {
         let film = await DataMovie.getMovieById(id);
         if (film) {
           V.renderMovieDetail(film[0]);
         } else {
           alert("Film non trouvé");
         }
-        
-      }
+      };
+      C.handlerProfile = async function () {
+        const select = document.querySelector("#profile-select");
+        const selectedOption = select.selectedOptions[0];
+
+        const profileName = selectedOption.value;
+        const dob = selectedOption.dataset.dob;
+        const imageFilename = selectedOption.dataset.img;
+
+        const picture = document.querySelector("#profile-picture");
+        const base =
+          "https://mmi.unilim.fr/~roubille1/-repository-SAE2.03-roubillr/server/images/";
+        picture.src = base + imageFilename;
+
+        // Calcul de l'âge
+        let birthDate = new Date(dob);
+        let today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+
+        C.userAge = age;
+
+        // Affiche les films filtrés par âge
+        let filteredMovies = await DataMovie.requestMoviesByCategory(age);
+        V.renderMoviesCategory(filteredMovies);
+      };
       C.handlerAbout = function () {
-        alert(
-          "Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !"
-        );
+        alert("Bienvenu :)");
       };
       C.getAllMovies = async function () {
         let data = await DataMovie.requestMovie();
@@ -49,37 +74,41 @@
       // C.start = async function () {
       //   V.renderNavBar("C.handlerAbout()");
       //   let data = await DataMovie.requestMovie();
-        
+
       //   V.renderFilmCards(data);
 
       // };
 
       C.start = async function () {
         V.renderNavBar("C.handlerAbout()");
-          let data = await DataMovie.requestMoviesByCategory();
-          if (data.length == 0) {
-            data = [
-              {
-                image: "sad.jfif",
-                name: "Il n'y a pas de film disponible pour l'instant",
-              },
-            ];
-          }
-          V.renderMoviesCategory(data);
+        let data = await DataMovie.requestMoviesByCategory();
+        if (data.length == 0) {
+          data = [
+            {
+              image: "sad.jfif",
+              name: "Il n'y a pas de film disponible pour l'instant",
+            },
+          ];
+        }
+        V.renderMoviesCategory(data);
         C.getAllMovies();
       };
 
       // Vue (contient tout ce qui est relatif à l'affichage)
       window.V = {};
-      V.renderNavBar = function (hAbout) {
+      V.renderNavBar = async function (hAbout) {
         let header = document.querySelector("#header");
-        header.innerHTML = NavBar.format(hAbout);
+        let profiles = await DataProfile.requestProfile();
+        header.innerHTML = NavBar.format(
+          hAbout,
+          "C.handlerProfile()",
+          profiles
+        );
       };
-      
+
       V.renderFilmCards = function (film) {
         let content = document.querySelector("#content");
         content.innerHTML = FilmCard.format(film);
-
       };
       V.renderMovieDetail = function (data) {
         if (!data) return;
