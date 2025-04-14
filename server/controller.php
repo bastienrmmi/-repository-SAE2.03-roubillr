@@ -73,3 +73,16 @@ function readControllerMoviesByAge() {
 
   return getMoviesByAge((int)$age);
 }
+function updateProfileController() {
+  $id = $_REQUEST['id'] ?? null;
+  $name = $_REQUEST['name'] ?? null;
+  $avatar = $_REQUEST['avatar'] ?? null;
+  $min_age = $_REQUEST['datenaissance'] ?? null;
+
+  if (empty($id) || empty($name) || empty($min_age)) {
+      return "Erreur : Tous les champs obligatoires doivent être remplis.";
+  }
+
+  $ok = updateProfile($name, $avatar, $min_age, $id);
+  return $ok ? "Le profil a été modifié avec succès." : "Erreur lors de la modification du profil.";
+}

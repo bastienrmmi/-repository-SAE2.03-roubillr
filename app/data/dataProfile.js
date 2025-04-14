@@ -8,4 +8,5 @@ DataProfile.requestProfile = async function () {
 
     return Profiles;
 }
+
 export { DataProfile };

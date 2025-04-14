@@ -1,0 +1,13 @@
+
+<div class="addFilm">
+  <h4 class="addFilm__title">Modifier un profil</h4>
+  <form class="addFilm__form">
+    <select id="profile-select"  name="id" onchange="{{hProfile}}">
+      {{profile}}
+    </select>
+    <input required type="text" required name="name" placeholder="Saisir un nom">
+    <input type="text" required name="avatar" placeholder="Saisir l'url d'une image">
+    <input required type="date" name="min_age" placeholder="Saisir une année" min="1" />
+    <input onclick="{{handler}}" type="button" value="Modifier" name="todo">
+  </form>
+</div>

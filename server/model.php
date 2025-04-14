@@ -143,3 +143,23 @@ function getProfile(){
     $res = $stmt->fetchAll(PDO::FETCH_OBJ);
     return $res; // Retourne les résultats
 }
+function updateProfile($name, $avatar, $min_age, $id) {
+ 
+    
+    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+    
+    $sql = "UPDATE UserProfile
+            SET name = :name, avatar = :avatar, datenaissance = :datenaissance 
+            WHERE id = :id";
+    
+    $stmt = $cnx->prepare($sql);
+   
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':avatar', $avatar);
+    $stmt->bindParam(':datenaissance', $min_age);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    
+    $res = $stmt->rowCount(); 
+    return $res; 
+}

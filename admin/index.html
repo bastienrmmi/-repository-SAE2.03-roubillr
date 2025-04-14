@@ -10,6 +10,7 @@
     <section id="log"></section>
     <section id="addFilm"></section>
     <section id="addUser"></section>
+    <section id="updateProfile"></section>
 
     <script type="module">
       import { Log } from "./component/Log/script.js";
@@ -17,15 +18,44 @@
       import { DataMovie } from "./data/dataMovie.js";
       import { DataProfile } from "./data/dataProfile.js";
       import { UserForm } from "./component/UserForm/script.js";
+      import { updateProfileForm } from "./component/UpdateProfileForm/script.js";
 
       window.C = {};
+
+      
 
       C.start = function () {
         V.renderLog("Démarrage de l'application");
         V.renderForm("C.handlerAddMovie()");
         V.renderAddUserForm("C.handlerAddUser()");
+        V.renderUpdateProfileForm("C.handlerUpdateProfile()");
+        C.loadProfiles();
+      };
+      
+      C.loadProfiles = async function() {
+        let profiles = await DataProfile.readProfile();
+        let optionsHtml = "";
+        for (let i = 0; i < profiles.length; i++) {
+          let profile = profiles[i];
+          optionsHtml += `<option value="${profile.id}">${profile.name}</option>`;
+        }
+        let select = document.querySelector('#profile-select');
+        if (select) {
+          select.innerHTML = optionsHtml;
+        }
       };
 
+      C.handlerUpdateProfile = async function () {
+        let form = document.querySelector(".updateProfile__form");
+        let fd = new FormData(form);
+        let res = await DataProfile.update(fd);
+
+        if (res.includes("succès")) { 
+          form.reset(); 
+          location.reload();
+        }
+        V.renderLog(res);
+      };
       C.handlerAddMovie = async function () {
         // Sélectionne l'élément possédant la classe `.addMenu__form`
         // il s'agit de l'élément <form> du composant NewMenuForm
@@ -64,6 +94,11 @@
       V.renderAddUserForm = function (handler) {
         let content = document.querySelector("#addUser");
         content.innerHTML = UserForm.format(handler);
+      };
+      
+      V.renderUpdateProfileForm = function(handler) {
+      let content = document.querySelector("#updateProfile");
+      content.innerHTML = updateProfileForm.format(handler);  
       };
       C.start();
     </script>

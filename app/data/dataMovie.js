@@ -25,7 +25,9 @@ DataMovie.requestMoviesByCategory = async function (age = 99) {
         newCategory.movies.push(m);
       }
     }
-    newCategories.push(newCategory);
+    if (newCategory.movies.length > 0) {
+      newCategories.push(newCategory);
+    }
   }
 
   return newCategories;

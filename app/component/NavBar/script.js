@@ -5,7 +5,7 @@ let NavBar = {};
 
 NavBar.format = function ( hAbout,hProfile, profiles) {
   let html = template;
-  let options = "";
+  let options = '<option value="" data-img="" data-dob="1900-01-01" > Tous les films </option>';
   
   html = html.replace("{{handler}}", hProfile);
 for (let p of profiles) {
