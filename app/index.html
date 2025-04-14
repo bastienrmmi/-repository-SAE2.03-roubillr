@@ -34,7 +34,12 @@
         }
       };
       C.handlerProfile = async function () {
-        const select = document.querySelector("#profile-select");
+        console.log('ok');
+        console.log(document.querySelector(".g"));
+        
+          
+          
+          const select = document.querySelector("#profile-select");
         const selectedOption = select.selectedOptions[0];
 
         const profileName = selectedOption.value;
@@ -90,6 +95,7 @@
             },
           ];
         }
+
         V.renderMoviesCategory(data);
         C.getAllMovies();
       };
@@ -116,7 +122,18 @@
         content.innerHTML = MovieDetail.format(data);
       };
 
-      V.renderMoviesCategory = function (data) {
+
+
+
+
+
+      V.renderMoviesCategory = async function (data) {
+
+
+
+
+
+
         if (!Array.isArray(data)) {
           console.error("V.renderMoviesCategory: data is not iterable", data);
           return;

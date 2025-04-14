@@ -1,7 +1,7 @@
 body {
     background-color: var(--color-bg);
 }
-.addFilm {
+.updateProfile {
     width: 95vw;
     max-width: 1600px;
     margin: 2rem auto;
@@ -10,21 +10,21 @@ body {
     font-family: Arial, sans-serif;
   }
   
-  .addFilm__title {
+  .updateProfile__title {
     font-size: 2rem;
     margin-bottom: 2rem;
     text-align: center;
     color: #ecf0f1;
   }
   
-  .addFilm__form {
+  .updateProfile__form {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem 2rem;
   }
   
-  .addFilm__form input,
-  .addFilm__form select {
+  .updateProfile__form input,
+  .updateProfile__form select {
     font-size: 1rem;
     padding: 1rem;
     border: 1px solid #bdc3c7;
@@ -36,19 +36,19 @@ body {
     transition: transform 0.2s ease;
   }
   
-  .addFilm__form input::placeholder {
+  .updateProfile__form input::placeholder {
     color: var(--color-gray);
   }
   
-  .addFilm__form input:focus,
-  .addFilm__form select:focus {
+  .updateProfile__form input:focus,
+  .updateProfile__form select:focus {
     outline: none;
     border-color: var(--color-yellow);
     box-shadow: 0 0 0.5rem #52490b80;
   }
   
   /* Le bouton */
-  .addFilm__form input[type="button"] {
+  .updateProfile__form input[type="button"] {
     background-color: var(--color-black);
     color: var(--color-gray);;
     border: none;
@@ -62,15 +62,15 @@ body {
   }
   
   @media (max-width: 768px) {
-    .addFilm__form input[type="button"] {
+    .updateProfile__form input[type="button"] {
       grid-column: span 1;
     }
   }
   
-  .addFilm__form input[type="button"]:hover {
+  .updateProfile__form input[type="button"]:hover {
   background-color: var(--color-blue-foncé);
   }
   
-  .addFilm__form input[type="button"]:active {
+  .updateProfile__form input[type="button"]:active {
     transform: scale(0.95);
   }
