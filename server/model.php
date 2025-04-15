@@ -163,3 +163,78 @@ function updateProfile($name, $image, $datenaissance, $id) {
     $res = $stmt->rowCount(); 
     return $res; 
 }
+function addFavoris($id_movie, $id_profile) {
+    // Connexion à la base de données
+    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+    // Requête SQL d'insertion dans la table Favoris
+    $sql = "INSERT INTO Favoris (id_movie, id_profile) 
+            VALUES (:id_movie, :id_profile)";
+    $stmt = $cnx->prepare($sql);
+    $stmt->bindParam(':id_movie', $id_movie, PDO::PARAM_INT);
+    $stmt->bindParam(':id_profile', $id_profile, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
+
+function delFavoris($id_movie, $id_profile) {
+    // Connexion à la base de données
+    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+    // Requête SQL pour la suppression
+    $sql = "DELETE FROM Favoris 
+            WHERE id_movie = :id_movie 
+            AND id_profile = :id_profile";
+    $stmt = $cnx->prepare($sql);
+    $stmt->bindParam(':id_movie', $id_movie, PDO::PARAM_INT);
+    $stmt->bindParam(':id_profile', $id_profile, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
+
+
+
+function getFavoris($id_profile) {
+    // Connexion à la base de données
+    $cnx = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBLOGIN, DBPWD);
+    // Requête SQL corrigée avec le bon paramètre
+    $sql = "SELECT Movie.id, Movie.name, Movie.image, Category.name AS category
+          FROM Favoris
+          JOIN Movie ON Favoris.id_movie = Movie.id
+          LEFT JOIN Category ON Movie.id_category = Category.id
+          WHERE Favoris.id_profile = :id_profile"; // Utilisation cohérente de :id_profile
+    $stmt = $cnx->prepare($sql);
+    $stmt->bindParam(':id_profile', $id_profile, PDO::PARAM_INT); // Correspondance avec la requête SQL
+    $stmt->execute();
+    $res = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+    return $res;
+}
+
+
+
+
+
+
+
+function getLikes($id_profile) {
+    try {
+        $options = [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        ];
+        $cnx = new PDO("mysql:host=" . HOST . ";dbname=" . DBNAME, DBLOGIN, DBPWD, $options);
+        
+        $sql = "SELECT id_movie
+                FROM Favoris
+                WHERE Favoris.id_profile = :id_profile";
+        $stmt = $cnx->prepare($sql);
+        $stmt->bindParam(':id_profile', $id_profile, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    } catch (PDOException $e) {
+        error_log("Erreur dans getLikes : " . $e->getMessage());
+        return [];
+    }
+}

@@ -84,6 +84,29 @@ if ( isset($_REQUEST['todo']) ){
       $data = updateProfileController();
       break;
 
+    case 'addFavoris':
+      $data = addFavorisController();
+      break;
+  
+    case 'delFavoris':
+      $data = delFavorisController();
+      break;
+  
+    case 'getFavoris':
+      $data = getFavorisController();
+      break;
+
+
+
+
+
+    case 'getLikes':
+      $data = getLikesController();
+      break;
+
+
+
+      
     default:
       echo json_encode('[error] Unknown todo value');
       http_response_code(400);

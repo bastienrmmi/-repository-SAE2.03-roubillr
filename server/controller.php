@@ -38,7 +38,11 @@ function readAllMovieDetailByIdController(){
 
 function readMoviesByCategoryController() {
   $categories = getMoviesByCategory();
-  return $categories ? $categories : false;
+  if ($categories) {
+    return $categories;
+  } else {
+    return false;
+  }
 }
 function addUserController(){
   $name = $_REQUEST['name'] ?? null;
@@ -85,4 +89,34 @@ function updateProfileController() {
 
   $ok = updateProfile($name, $image, $datenaissance, $id);
   return $ok ? "Le profil a été modifié avec succès." : "Erreur lors de la modification du profil.";
+}
+
+function addFavorisController(){
+  $id_movie = $_REQUEST['id_movie'];
+  $id_profile = $_REQUEST['id_profile'];
+  $ok = addFavoris($id_movie, $id_profile);
+  if ($ok != 0) {
+      return "Le film à été ajouté aux favoris";
+  } else {
+      return "Erreur, le film n'a pas été ajouté aux favoris...";
+  }
+}
+
+function delFavorisController(){
+  $id_movie = $_REQUEST['id_movie'];
+  $id_profile = $_REQUEST['id_profile'];
+  $ok = delFavoris($id_movie, $id_profile);
+  return $ok; // booléen :)
+}
+
+function getFavorisController(){
+  $id_profile = $_REQUEST['id_profile'];
+  $favoris = getFavoris($id_profile);
+  return $favoris;
+}
+
+function getLikesController(){
+  $id_profile = $_REQUEST['id_profile'];
+  $favoris = getLikes($id_profile);
+  return $favoris;
 }
