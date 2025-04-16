@@ -34,12 +34,10 @@
         }
       };
       C.handlerProfile = async function () {
-        console.log('ok');
-        console.log(document.querySelector(".g"));
-        
-          
-          
-          const select = document.querySelector("#profile-select");
+        //console.log('ok');
+        //console.log(document.querySelector(".g"));
+
+        const select = document.querySelector("#profile-select");
         const selectedOption = select.selectedOptions[0];
 
         const profileName = selectedOption.value;
@@ -84,21 +82,6 @@
 
       // };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       C.handlerFavorisList = async function () {
         // Récupérer l'ID du profil actif
         const profileSelect = document.querySelector("#profile-select");
@@ -121,19 +104,18 @@
         }
       };
 
-
-
-
-
-
-
-
-
-    C.handlerFavoris = async function (id) {
-        console.log(`C.handlerFavoris appelé avec movieId=${id}`);
+      C.handlerFavoris = async function (id) {
+        //console.log(`C.handlerFavoris appelé avec movieId=${id}`);
         const profileSelect = document.querySelector("#profile-select");
-        const profileId = profileSelect ? profileSelect.value : null;
-
+        let profileId = profileSelect ? profileSelect.value : null;
+        let profile = await DataProfile.requestProfile();
+        console.log("profile :", profile);
+        for (let i = 0; i < profile.length; i++) {
+          if (profile[i].name == profileId) {
+            console.log("NOM du profil sélectionné :", profileId);
+            profileId = profile[i].id;
+          }
+        }
         if (!profileId) {
           alert(
             "Veuillez sélectionner un profil avant d'ajouter un film aux favoris."
@@ -153,13 +135,17 @@
         if (res === 1) {
           alert("alertLe film a été ajouté aux favoris :)");
         }
-
-
-
       };
       C.handlerdeleteFavoris = async function (id) {
         const profileSelect = document.querySelector("#profile-select");
-        const profileId = profileSelect ? profileSelect.value : null;
+        let profileId = profileSelect ? profileSelect.value : null;
+        let profile = await DataProfile.requestProfile();
+        for (let i = 0; i < profile.length; i++) {
+          if (profile[i].name == profileId) {
+            //console.log("NOM du profil sélectionné :", profileId);
+            profileId = profile[i].id;
+          }
+        }
 
         if (!profileId) {
           alert(
@@ -186,13 +172,6 @@
         }
       };
 
-
-
-
-
-
-
-
       C.start = async function () {
         V.renderNavBar("C.handlerAbout()");
         let data = await DataMovie.requestMoviesByCategory();
@@ -208,17 +187,48 @@
         V.renderMoviesCategory(data);
         C.getAllMovies();
       };
+
       C.getLikedMovies = async function () {
         let profileSelect = document.querySelector("#profile-select");
         let profileId = null;
         if (profileSelect) {
           profileId = profileSelect.value;
+          //console.log("ID du profil sélectionné :", profileId);
+          let profile = await DataProfile.requestProfile();
+          //console.log("profile :", profile);
+          for (let i = 0; i < profile.length; i++) {
+            if (profile[i].name == profileId) {
+              //console.log("NOM du profil sélectionné :", profileId);
+              profileId = profile[i].id;
+            }
+          }
         }
-        console.log("ID du profil sélectionné :", profileId);
-        let idMovie = await DataMovie.getLikes(profileId)
-        console.log("ID des films aimé :", idMovie);
-        // if (idmovie=)
+        //console.log("ID du profil sélectionné :", profileId);
+        let idMovie = await DataMovie.getLikes(profileId);
+        //console.log("ID des films aimé :", idMovie);
+        return idMovie;
       };
+
+      // C.getLikedMovies = async function () {
+      //   let profileSelect = document.querySelector("#profile-select");
+      //   console.log("profileSelect :", profileSelect);
+      //   let profileName = null;
+
+      //   profileName = selectedOption.value;
+      //   if (profileSelect) {
+      //     profileName = profileSelect.value;
+      //     let profile = await DataProfile.requestProfile();
+      //     profile.forEach(element => {
+      //       if (element.name == profileName) {
+      //         return element.id;
+      //         console.log("ID du profil sélectionné :", element.id);
+      //       }
+      //     });
+      //   }
+
+      //   // if (idmovie=)
+      // };
+
       // Vue (contient tout ce qui est relatif à l'affichage)
       window.V = {};
       V.renderNavBar = async function (hAbout) {
@@ -241,18 +251,10 @@
         content.innerHTML = MovieDetail.format(data);
       };
 
-
-
-
-
-
       V.renderMoviesCategory = async function (data) {
-        console.log("V.renderMoviesCategory appelé avec data :", data);
-        C.getLikedMovies();
-
-
-
-
+        //console.log("V.renderMoviesCategory appelé avec data :", data);
+        let bruh = await C.getLikedMovies();
+        //console.log("bruh :", bruh);
 
         if (!Array.isArray(data)) {
           console.error("V.renderMoviesCategory: data is not iterable", data);
@@ -261,7 +263,8 @@
         let content = document.querySelector("#content");
         let formattedContent = "";
         for (let category of data) {
-          formattedContent += MovieCategory.format(category);
+          formattedContent += MovieCategory.format(category, bruh);
+          //console.log("formattedContent :", formattedContent);
         }
         content.innerHTML = formattedContent;
       };
