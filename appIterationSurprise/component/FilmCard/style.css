@@ -1,0 +1,96 @@
+.filmcards {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  font-family: "DM Sans", sans-serif;
+}
+
+.filmcards:has(.infos) {
+  display: block;
+}
+
+.filmcard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  width: calc(100vw / 6);
+  aspect-ratio: 2 / 3; /* Fixe le ratio d'aspect pour avoir des cartes uniformes */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filmcard:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.filmcard__affiche {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.filmcard__titre {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: var(--color-fg);
+  font-size: 1em;
+  padding: 0.8rem;
+  text-align: center;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.705), transparent);
+}
+
+/* Style pour le bouton "tolike" */
+.filmcard button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.filmcard button:hover {
+  transform: scale(1.2);
+}
+
+.filmcard__like {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Responsive : petits écrans */
+@media (max-width: 768px) {
+  .filmcards {
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
+  .filmcard {
+    border-radius: 0.2rem;
+    width: calc(100vw / 3);
+    aspect-ratio: 2 / 3;
+  }
+
+  .filmcard__titre {
+    font-size: 0.6em;
+    padding: 0.4rem;
+  }
+
+  .filmcard button {
+    top: 0.3rem;
+    right: 0.3rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}

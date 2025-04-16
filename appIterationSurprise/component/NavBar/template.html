@@ -1,0 +1,20 @@
+<nav class="navbar font-sans">
+  <ul class="navbar__list">
+    <li class="navbar__item" onclick="window.location.href='index.html'">Home</li>
+    <li class="navbar__item" onclick="{{fav}}">Mes Favoris</li>
+    <!-- <li class="navbar__item" onclick="{{hAbout}}">Bienvenue</li> -->
+  </ul>
+  <div class="USER">
+    <div class="select-wrapper">
+    <select class="select_user" id="profile-select" name="Profile" onchange="{{handler}}">
+      {{options}}
+  </select>
+</div>
+  <img
+      id="profile-picture"
+      class="navbar__picture"
+      src="https://mmi.unilim.fr/~roubille1/-repository-SAE2.03-roubillr/server/images/{{image}}"
+      alt="Photo de profil"
+    />
+  </div>
+</nav>

@@ -1,0 +1,25 @@
+<div class="infos">
+  <img
+    src="https://mmi.unilim.fr/~roubille1/-repository-SAE2.03-roubillr/server/images/{{image}}"
+    alt="Affiche du film {{TITRE}}"
+    class="infos-image"
+  />
+  <div class="infos__contenu">
+    <h2 class="infos__title">{{TITRE}}</h2>
+    <p class="infos__description">{{description}}</p>
+    <p class="infos__realisateur">Réalisateur : {{realisateur}}</p>
+    <p class="infos__annee">Année : {{annee}}</p>
+    <p class="infos__duree">Durée : {{duree}} minutes</p>
+    <p class="infos__categorie">Genre : {{category}}</p>
+    <p class="infos__age">Age minimum : {{age}} ans</p>
+    <iframe
+      class="infos__trailer"
+      src="{{url}}"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    >
+    </iframe>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+.category-title {
+  font-family: "DM Sans";
+  color: var(--color-fg);
+  font-size: 2rem;
+}
+.movies {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: var(--color-fg);
+  border-radius: 10px;
+  max-width: 800px;
+  margin: 20px;
+  gap: calc(1rem/6);
+
+}

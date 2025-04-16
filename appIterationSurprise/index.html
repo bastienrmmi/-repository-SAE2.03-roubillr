@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>SAE2.03 APP</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/base.css" />
+  </head>
+
+  <body>
+    <header id="header"></header>
+
+    <section class="filmcards" id="content"></section>
+
+    <script type="module">
+      import { NavBar } from "./component/NavBar/script.js";
+      import { MovieDetail } from "./component/MovieDetail/script.js";
+      import { MovieCategory } from "./component/MovieCategory/script.js";
+
+      import { FilmCard } from "./component/FilmCard/script.js";
+      import { DataMovie } from "./data/dataMovie.js";
+      import { DataProfile } from "./data/dataProfile.js";
+      // Controleur
+      // Rappel, écrire window.C plutôt que let C est nécessaire pour tester depuis la console du navigateur
+      // Une fois l'application terminée, on pourrait remettre let C.
+      window.C = {};
+
+      C.handlerDetail = async function (id) {
+        let film = await DataMovie.getMovieById(id);
+        if (film) {
+          V.renderMovieDetail(film[0]);
+        } else {
+          alert("Film non trouvé");
+        }
+      };
+      C.handlerProfile = async function () {
+        //console.log('ok');
+        //console.log(document.querySelector(".g"));
+
+        const select = document.querySelector("#profile-select");
+        const selectedOption = select.selectedOptions[0];
+
+        const profileName = selectedOption.value;
+        const dob = selectedOption.dataset.dob;
+        const imageFilename = selectedOption.dataset.img;
+
+        const picture = document.querySelector("#profile-picture");
+        const base =
+          "https://mmi.unilim.fr/~roubille1/-repository-SAE2.03-roubillr/server/images/";
+        picture.src = base + imageFilename;
+
+        // Calcul de l'âge
+        let birthDate = new Date(dob);
+        let today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+
+        C.userAge = age;
+
+        // Affiche les films filtrés par âge
+        let filteredMovies = await DataMovie.requestMoviesByCategory(age);
+        V.renderMoviesCategory(filteredMovies);
+      };
+      C.handlerAbout = function () {
+        alert("Bienvenue :)");
+      };
+      C.getAllMovies = async function () {
+        let data = await DataMovie.requestMovie();
+        if (data.length == 0) {
+          data = [{ name: "Il n'y a pas de film disponible pour l'instant" }];
+        }
+        // V.renderMovieCard(data);
+      };
+      // C.start = async function () {
+      //   V.renderNavBar("C.handlerAbout()");
+      //   let data = await DataMovie.requestMovie();
+
+      //   V.renderFilmCards(data);
+
+      // };
+
+      C.handlerFavorisList = async function () {
+        // Récupérer l'ID du profil actif
+        let profileSelect = document.querySelector("#profile-select");
+        let profileId = profileSelect ? profileSelect.value : null;
+        let profile = await DataProfile.requestProfile();
+        console.log("profile :", profile);
+        for (let i = 0; i < profile.length; i++) {
+          if (profile[i].name == profileId) {
+            console.log("NOM du profil sélectionné :", profileId);
+            profileId = profile[i].id;
+          }
+        }
+        if (!profileId) {
+          alert("Veuillez sélectionner un profil pour voir les favoris.");
+          return;
+        }
+
+        // Récupérer les films favoris pour le profil actif
+        let favoris = await DataMovie.getFavoris(profileId);
+
+        if (!favoris || favoris.length === 0) {
+          document.querySelector("#content").innerHTML =
+            "<p>Aucun film ajouté aux favoris.</p>";
+        } else {
+          let bruh = await C.getLikedMovies();
+          // Afficher les films favoris
+          V.renderFilmCards(favoris,bruh);
+        }
+      };
+
+      C.handlerFavoris = async function (id) {
+        //console.log(`C.handlerFavoris appelé avec movieId=${id}`);
+        let profileSelect = document.querySelector("#profile-select");
+        let profileId = profileSelect ? profileSelect.value : null;
+        let profile = await DataProfile.requestProfile();
+        console.log("profile :", profile);
+        for (let i = 0; i < profile.length; i++) {
+          if (profile[i].name == profileId) {
+            console.log("NOM du profil sélectionné :", profileId);
+            profileId = profile[i].id;
+          }
+        }
+        if (!profileId) {
+          alert(
+            "Veuillez sélectionner un profil avant d'ajouter un film aux favoris."
+          );
+          return;
+        }
+
+        let res = await DataMovie.addFavoris(id, profileId);
+        console.log("res :", res); // Vérification de la réponse
+
+        if (res === 1) {
+          console.log("Le film a été ajouté aux favoris !");
+          alert("alertLe film a été ajouté aux favoris :)");
+
+          let select = document.querySelector("#profile-select");
+          if (select) {
+            localStorage.setItem("selectedProfile", select.value);
+            location.reload();
+          }
+        }
+      };
+      C.handlerdeleteFavoris = async function (id) {
+        let profileSelect = document.querySelector("#profile-select");
+        let profileId = profileSelect ? profileSelect.value : null;
+        let profile = await DataProfile.requestProfile();
+
+        for (let i = 0; i < profile.length; i++) {
+          if (profile[i].name == profileId) {
+            profileId = profile[i].id;
+          }
+        }
+
+        if (!profileId) {
+          alert(
+            "Veuillez sélectionner un profil avant de supprimer un film des favoris."
+          );
+          return;
+        }
+
+        let res = await DataMovie.delFavoris(id, profileId);
+        console.log("res :", res); // Vérification de la réponse
+
+        if (res === 1) {
+          alert("Le film a été supprimé de vos favoris !");
+
+          // let favoris = await DataMovie.getFavoris(profileId);
+          // if (!favoris || favoris.length === 0) {
+          //   alert("Votre liste de favoris est vide");
+          // } else {
+          //   V.renderMovie(favoris);
+          // }
+
+          // Sauvegarder le profil sélectionné AVANT de recharger
+          if (profileSelect) {
+            localStorage.setItem("selectedProfile", profileSelect.value);
+          }
+
+          location.reload(); // Rechargement simple (depuis le cache)
+        } else {
+          alert("Ce film n'est pas dans vos favoris");
+        }
+      };
+
+      C.start = async function () {
+        console.log("C.start lancé");
+
+        let savedProfile = localStorage.getItem("selectedProfile");
+        if (savedProfile) {
+          // Attendre que le select soit dispo dans le DOM
+          let checkExist = setInterval(() => {
+            let select = document.querySelector("#profile-select");
+            if (select) {
+              select.value = savedProfile;
+              select.dispatchEvent(new Event("change"));
+              console.log("Profil restauré :", savedProfile);
+              localStorage.removeItem("selectedProfile");
+              clearInterval(checkExist);
+            }
+          }, 100); // Vérifie toutes les 100ms
+        }
+
+        V.renderNavBar("C.handlerAbout()");
+        let data = await DataMovie.requestMoviesByCategory();
+        if (data.length == 0) {
+          data = [
+            {
+              image: "sad.jfif",
+              name: "Il n'y a pas de film disponible pour l'instant",
+            },
+          ];
+        }
+
+        V.renderMoviesCategory(data);
+        C.getAllMovies();
+      };
+
+      C.getLikedMovies = async function () {
+        let profileSelect = document.querySelector("#profile-select");
+        let profileId = null;
+        if (profileSelect) {
+          profileId = profileSelect.value;
+          //console.log("ID du profil sélectionné :", profileId);
+          let profile = await DataProfile.requestProfile();
+          //console.log("profile :", profile);
+          for (let i = 0; i < profile.length; i++) {
+            if (profile[i].name == profileId) {
+              //console.log("NOM du profil sélectionné :", profileId);
+              profileId = profile[i].id;
+            }
+          }
+        }
+        //console.log("ID du profil sélectionné :", profileId);
+        let idMovie = await DataMovie.getLikes(profileId);
+        //console.log("ID des films aimé :", idMovie);
+        return idMovie;
+      };
+
+      // C.getLikedMovies = async function () {
+      //   let profileSelect = document.querySelector("#profile-select");
+      //   console.log("profileSelect :", profileSelect);
+      //   let profileName = null;
+
+      //   profileName = selectedOption.value;
+      //   if (profileSelect) {
+      //     profileName = profileSelect.value;
+      //     let profile = await DataProfile.requestProfile();
+      //     profile.forEach(element => {
+      //       if (element.name == profileName) {
+      //         return element.id;
+      //         console.log("ID du profil sélectionné :", element.id);
+      //       }
+      //     });
+      //   }
+
+      //   // if (idmovie=)
+      // };
+
+      // Vue (contient tout ce qui est relatif à l'affichage)
+      window.V = {};
+      V.renderNavBar = async function (hAbout) {
+        let header = document.querySelector("#header");
+        let profiles = await DataProfile.requestProfile();
+        header.innerHTML = NavBar.format(
+          hAbout,
+          "C.handlerProfile()",
+          profiles
+        );
+      };
+
+      V.renderFilmCards = function (film,moviesId) {
+        let content = document.querySelector("#content");
+        content.innerHTML = FilmCard.format(film,moviesId);
+      };
+      V.renderMovieDetail = function (data) {
+        if (!data) return;
+        let content = document.querySelector("#content");
+        content.innerHTML = MovieDetail.format(data);
+      };
+
+      V.renderMoviesCategory = async function (data) {
+        //console.log("V.renderMoviesCategory appelé avec data :", data);
+        let bruh = await C.getLikedMovies();
+        //console.log("bruh :", bruh);
+
+        if (!Array.isArray(data)) {
+          console.error("V.renderMoviesCategory: data is not iterable", data);
+          return;
+        }
+        let content = document.querySelector("#content");
+        let formattedContent = "";
+        for (let category of data) {
+          formattedContent += MovieCategory.format(category, bruh);
+          //console.log("formattedContent :", formattedContent);
+        }
+        content.innerHTML = formattedContent;
+      };
+      C.start(); // Démarre l'application
+    </script>
+  </body>
+</html>
+<script type="module"></script>
