@@ -98,17 +98,29 @@
 @media (max-width: 768px) {
   
     .navbar {
-      padding: 1rem 2rem 1rem 2rem;
+      padding: 0.5rem 1rem 0.5rem 1rem;
       gap: 0.5rem;
     }
     
     .navbar__list {
-      gap: 0.5rem;
+      gap: 0rem;
     }
     
     .navbar__item {
-      font-size: 1.5rem;
+      gap: 0rem;
+      font-size: 1rem;
       margin: 0;
       padding: 0.5rem;
+    }
+    .select_user {
+      font-size: 0.7rem;
+      padding: 0.5rem;
+      border: 1px solid #bdc3c7;
+      border-radius: 6px;
+      background-color: #292b2d;
+      color: #ecf0f1;
+      width: 100%;
+      box-sizing: border-box;
+      transition: transform 0.2s ease;
     }
 }

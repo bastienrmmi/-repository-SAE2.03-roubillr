@@ -96,7 +96,7 @@ function addFavorisController(){
   $id_profile = $_REQUEST['id_profile'];
   $ok = addFavoris($id_movie, $id_profile);
   if ($ok != 0) {
-      return "Le film à été ajouté aux favoris";
+      return $ok;
   } else {
       return "Erreur, le film n'a pas été ajouté aux favoris...";
   }

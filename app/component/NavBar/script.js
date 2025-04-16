@@ -35,6 +35,7 @@ NavBar.format = function (hAbout, hProfile, profiles) {
   }
 
   // Remplacement des placeholders dans le template HTML
+  html = html.replace("{{fav}}", "C.handlerFavorisList()");
   html = html.replace("{{options}}", options);
   html = html.replace("{{image}}", image);
   html = html.replace("{{hAbout}}", hAbout);
