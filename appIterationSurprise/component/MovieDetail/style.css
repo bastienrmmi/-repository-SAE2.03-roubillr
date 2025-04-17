@@ -1,7 +1,6 @@
 .infos {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
     background-color: var(--color-bg);
     color: var(--color-fg);
     padding: 20px;
@@ -11,10 +10,10 @@
   }
   
   .infos-image {
+    aspect-ratio: 411.11 / 1462;
     width: 100%;
-    max-width: 300px;
+    max-width: 100rem;
     border-radius: 10px;
-    box-shadow: 0 4px 8px var(--color-gray-dark);
     margin-bottom: 20px;
   }
   
@@ -59,7 +58,7 @@
     border: 2px solid var(--color-blue-foncé);
     border-radius: 10px;
   }
-@media (min-width: 800px) {
+@media (max-width: 800px) {
   .infos {
     flex-direction: row;
     justify-content: space-between;

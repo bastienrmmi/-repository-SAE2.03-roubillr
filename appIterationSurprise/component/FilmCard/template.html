@@ -1,10 +1,10 @@
 
-  <ul  class="filmcard">
-    <li onclick="C.handlerDetail({{id}})">
-    <img class="filmcard__affiche" src="https://mmi.unilim.fr/~roubille1/-repository-SAE2.03-roubillr/server/images/{{image}}" alt="affiche du film {{title}}">
-    <div class="filmcard__titre"><h2>{{title}}</h2></div>
-    </li>
+  <li  class="filmcard">
+    
+    <img onclick="C.handlerDetail({{id}})" class="filmcard__affiche" src="https://mmi.unilim.fr/~roubille1/-repository-SAE2.03-roubillr/server/images/{{image}}" alt="affiche du film {{title}}">
+    <h2 onclick="C.handlerDetail({{id}})" class="filmcard__titre">{{title}}</h2>
+    
 
     {{like}}
 
-  </ul>
+  </li>
